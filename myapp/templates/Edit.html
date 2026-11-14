@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Patient{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="card-custom p-4">
+            <h4 class="fw-bold mb-3 text-dark">Edit Patient: {{ user.name }}</h4>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label fw-semibold text-secondary small">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger small mt-1">{{ field.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="/" class="btn btn-outline-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-hospital px-4">Update Patient</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

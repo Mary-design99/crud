@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Patient List{% endblock %}
+
+{% block content %}
+<div class="card-custom p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="mb-0 fw-bold text-dark">Patient List</h4>
+        <a href="/Add/" class="btn btn-hospital btn-sm px-3">+ Add New Patient</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 50px;">#</th>
+                    <th style="width: 70px;">Photo</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Date of Birth</th>
+                    <th class="text-center" style="width: 180px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rec in records %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        {% if rec.photo %}
+                            <img src="/media/{{ rec.photo }}" alt="{{ rec.name }}" class="rounded-circle" width="45" height="45" style="object-fit: cover;" onerror="this.src='https://ui-avatars.com/api/?name={{ rec.name|urlencode }}&background=0f766e&color=fff';">
+                        {% else %}
+                            <img src="https://ui-avatars.com/api/?name={{ rec.name|urlencode }}&background=0f766e&color=fff" alt="{{ rec.name }}" class="rounded-circle" width="45" height="45">
+                        {% endif %}
+                    </td>
+                    <td class="fw-semibold">{{ rec.name }}</td>
+                    <td>{{ rec.email }}</td>
+                    <td>{{ rec.mobile_number }}</td>
+                    <td>{{ rec.date_of_birth|date:"Y-m-d" }}</td>
+                    <td class="text-center">
+                        <a href="/View/{{ rec.id }}" class="btn btn-outline-primary btn-sm py-1 px-2">View</a>
+                        <a href="/Edit/{{ rec.id }}" class="btn btn-outline-success btn-sm py-1 px-2">Edit</a>
+                        <a href="/Delete/{{ rec.id }}" class="btn btn-outline-danger btn-sm py-1 px-2">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center py-4 text-muted">
+                        No patient records found. <a href="/Add/">Add a patient</a>.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
